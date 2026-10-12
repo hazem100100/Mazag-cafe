@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">كافيه مزاج - المزaj الرايق</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2b1d11;
+            --secondary-color: #4a3525;
+            --accent-color: #d4a373;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #f5f5f5;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #1b120c, #2b1d11);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 3px solid var(--accent-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+            letter-spacing: 2px;
+        }
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.85;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .section-title {
+            text-align: center;
+            margin: 35px 0 20px;
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            position: relative;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-color);
+            margin: 8px auto 0;
+            border-radius: 2px;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .menu-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            border: 1px solid #333;
+            transition: transform 0.3s ease;
+        }
+        .menu-card:hover {
+            transform: translateY(-5px);
+        }
+        .menu-content {
+            padding: 20px;
+            text-align: center;
+        }
+        .menu-content i {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+        .menu-content h3 {
+            font-size: 1.3rem;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        .menu-content p {
+            color: #aaa;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+        .price {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #121212;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        .contact-box {
+            background: linear-gradient(135deg, #2b1d11, #1b120c);
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+            border-radius: 12px;
+            margin: 40px 0;
+            border: 1px solid #4a3525;
+        }
+        .contact-box h2 {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+        .contact-box p {
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            color: #ccc;
+        }
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #25d366;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: background 0.3s;
+        }
+        .whatsapp-btn:hover {
+            background-color: #20ba5a;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #0b0b0b;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px solid #222;
+        }
+        .admin-trigger {
+            display: block;
+            text-align: center;
+            margin: 15px auto;
+            color: #888;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-decoration: underline;
+            background: none;
+            border: none;
+        }
+
+        /* نافذة لوحة التحكم */
+        #admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 9999;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        .admin-panel {
+            background: #1e1e1e;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 25px;
+            border-radius: 12px;
+            color: #fff;
+            border: 1px solid #444;
+        }
+        .admin-panel h2 {
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+        .form-group textarea {
+            resize: vertical;
+            height: 70px;
+        }
+        .admin-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .admin-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .save-btn { background-color: #27ae60; color: white; }
+        .close-btn { background-color: #e74c3c; color: white; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="main-title">كافيه مزاج</h1>
+        <p id="main-subtitle">اصنع مزاجك الرايق مع أطعم المشروبات والقهوة المختصة</p>
+    </header>
+
+    <div class="container">
+        <h2 class="section-title" id="menu-section-title">قائمة المشروبات والمنيو</h2>
+        
+        <div class="menu-grid" id="menu-container">
+            <!-- المنتجات تتعبى أوتوماتيك -->
+        </div>
+
+        <div class="contact-box">
+            <h2 id="contact-title">تواصل معنا أو اطلب دليفري</h2>
+            <p id="contact-subtitle">نسعد بزيارتكم وتقديم خدمة ممتازة طوال اليوم.</p>
+            <a href="#" id="whatsapp-link" class="whatsapp-btn" target="_blank">
+                <i class="fa-brands fa-whatsapp" style="font-size: 1.4rem;"></i> <span id="whatsapp-text">اطلب عبر واتساب</span>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p id="footer-text">جميع الحقوق محفوظة &copy; 2026 - كافيه مزاج</p>
+        <button class="admin-trigger" onclick="openAdminLogin()">⚙️ دخول لوحة الإدارة</button>
+    </footer>
+
+    <!-- نافذة تسجيل الدخول للإدارة -->
+    <div id="login-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:10000; justify-content:center; align-items:center;">
+        <div style="background:#1e1e1e; padding:25px; border-radius:10px; width:90%; max-width:350px; text-align:center; border:1px solid #444;">
+            <h3 style="margin-bottom:15px; color:var(--accent-color);">كلمة مرور الأدمن</h3>
+            <input type="password" id="admin-pass-input" placeholder="ادخل الباسورد (افتراضي: 1234)" style="width:100%; padding:10px; margin-bottom:15px; background:#2a2a2a; border:1px solid #444; color:#fff; border-radius:5px; text-align:center;">
+            <div style="display:flex; gap:10px;">
+                <button onclick="checkAdminPassword()" style="flex:1; background:#27ae60; color:white; border:none; padding:10px; border-radius:5px; font-weight:bold; cursor:pointer;">دخول</button>
+                <button onclick="document.getElementById('login-modal').style.display='none'" style="flex:1; background:#95a5a6; color:white; border:none; padding:10px; border-radius:5px; font-weight:bold; cursor:pointer;">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- لوحة التحكم الكاملة -->
+    <div id="admin-modal">
+        <div class="admin-panel">
+            <h2>لوحة تحكم كافيه مزاج</h2>
+            
+            <div class="form-group">
+                <label>اسم الكافيه (العنوان الرئيسي):</label>
+                <input type="text" id="edit-main-title">
+            </div>
+            
+            <div class="form-group">
+                <label>الوصف تحت العنوان:</label>
+                <textarea id="edit-main-subtitle"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>رقم الواتساب (مثال: 2010xxxxxxxx):</label>
+                <input type="text" id="edit-whatsapp-num">
+            </div>
+
+            <div class="form-group">
+                <label>كلمة مرور جديدة للأدمن:</label>
+                <input type="password" id="edit-new-pass">
+            </div>
+
+            <h3 style="margin: 20px 0 10px; color: var(--accent-color);">تعديل أصناف المنيو (3 أصناف رئيسية):</h3>
+            
+            <!-- صنف 1 -->
+            <div style="background:#2a2a2a; padding:12px; border-radius:8px; margin-bottom:10px;">
+                <label><b>الصنف الأول (الاسم):</b></label>
+                <input type="text" id="item1-title" style="margin-bottom:5px;">
+                <label><b>الوصف:</b></label>
+                <textarea id="item1-desc" style="height:40px;"></textarea>
+                <label><b>السعر:</b></label>
+                <input type="text" id="item1-price" style="margin-top:5px;">
+            </div>
+
+            <!-- صنف 2 -->
+            <div style="background:#2a2a2a; padding:12px; border-radius:8px; margin-bottom:10px;">
+                <label><b>الصنف الثاني (الاسم):</b></label>
+                <input type="text" id="item2-title" style="margin-bottom:5px;">
+                <label><b>الوصف:</b></label>
+                <textarea id="item2-desc" style="height:40px;"></textarea>
+                <label><b>السعر:</b></label>
+                <input type="text" id="item2-price" style="margin-top:5px;">
+            </div>
+
+            <!-- صنف 3 -->
+            <div style="background:#2a2a2a; padding:12px; border-radius:8px; margin-bottom:15px;">
+                <label><b>الصنف الثالث (الاسم):</b></label>
+                <input type="text" id="item3-title" style="margin-bottom:5px;">
+                <label><b>الوصف:</b></label>
+                <textarea id="item3-desc" style="height:40px;"></textarea>
+                <label><b>السعر:</b></label>
+                <input type="text" id="item3-price" style="margin-top:5px;">
+            </div>
+
+            <div class="admin-btns">
+                <button class="admin-btn save-btn" onclick="saveChanges()">حفظ وتحديث الموقع</button>
+                <button class="admin-btn" style="background:#f39c12; color:white;" onclick="resetData()">استرجاع الافتراضي</button>
+                <button class="admin-btn close-btn" onclick="closeAdminPanel()">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const defaultData = {
+            mainTitle: "كافيه مزاج",
+            mainSubtitle: "اصنع مزاجك الرايق مع أطعم المشروبات والقهوة المختصة",
+            whatsappNum: "200000000000",
+            adminPass: "1234",
+            item1Title: "قهوة تركي على اصولها",
+            item1Desc: "قهوة مضبوطة ومزاج عالي بالوش المظبوط.",
+            item1Price: "35 ج.م",
+            item2Title: "إسبريسو دوبل",
+            item2Desc: "طاقة مركزة ونكهة غنية لتبدأ يومك بتركيز.",
+            item2Price: "45 ج.م",
+            item3Title: "مشروبات مثلجة (آيس كوفي)",
+            item3Desc: "انتعاش حقيقي مع أحلى مزيج بارد.",
+            item3Price: "60 ج.م"
+        };
+
+        function getData() {
+            let data = localStorage.getItem('mazaj_cafe_data');
+            return data ? JSON.parse(data) : defaultData;
+        }
+
+        function renderSite() {
+            let data = getData();
+            document.getElementById('page-title').innerText = data.mainTitle;
+            document.getElementById('main-title').innerText = data.mainTitle;
+            document.getElementById('main-subtitle').innerText = data.mainSubtitle;
+            document.getElementById('whatsapp-link').href = "https://wa.me/" + data.whatsappNum;
+
+            let menuHTML = `
+                <div class="menu-card">
+                    <div class="menu-content">
+                        <i class="fa-solid fa-mug-hot"></i>
+                        <h3>${data.item1Title}</h3>
+                        <p>${data.item1Desc}</p>
+                        <span class="price">${data.item1Price}</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div class="menu-content">
+                        <i class="fa-solid fa-coffee"></i>
+                        <h3>${data.item2Title}</h3>
+                        <p>${data.item2Desc}</p>
+                        <span class="price">${data.item2Price}</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <div class="menu-content">
+                        <i class="fa-solid fa-glass-water"></i>
+                        <h3>${data.item3Title}</h3>
+                        <p>${data.item3Desc}</p>
+                        <span class="price">${data.item3Price}</span>
+                    </div>
+                </div>
+            `;
+            document.getElementById('menu-container').innerHTML = menuHTML;
+        }
+
+        function openAdminLogin() {
+            document.getElementById('login-modal').style.display = 'flex';
+        }
+
+        function checkAdminPassword() {
+            let data = getData();
+            let enteredPass = document.getElementById('admin-pass-input').value;
+            if (enteredPass === data.adminPass) {
+                document.getElementById('login-modal').style.display = 'none';
+                document.getElementById('admin-pass-input').value = '';
+                openAdminPanel();
+            } else {
+                alert('كلمة المرور غير صحيحة!');
+            }
+        }
+
+        function openAdminPanel() {
+            let data = getData();
+            document.getElementById('edit-main-title').value = data.mainTitle;
+            document.getElementById('edit-main-subtitle').value = data.mainSubtitle;
+            document.getElementById('edit-whatsapp-num').value = data.whatsappNum;
+            document.getElementById('edit-new-pass').value = '';
+            
+            document.getElementById('item1-title').value = data.item1Title;
+            document.getElementById('item1-desc').value = data.item1Desc;
+            document.getElementById('item1-price').value = data.item1Price;
+
+            document.getElementById('item2-title').value = data.item2Title;
+            document.getElementById('item2-desc').value = data.item2Desc;
+            document.getElementById('item2-price').value = data.item2Price;
+
+            document.getElementById('item3-title').value = data.item3Title;
+            document.getElementById('item3-desc').value = data.item3Desc;
+            document.getElementById('item3-price').value = data.item3Price;
+
+            document.getElementById('admin-modal').style.display = 'block';
+        }
+
+        function closeAdminPanel() {
+            document.getElementById('admin-modal').style.display = 'none';
+        }
+
+        function saveChanges() {
+            let data = getData();
+            data.mainTitle = document.getElementById('edit-main-title').value;
+            data.mainSubtitle = document.getElementById('edit-main-subtitle').value;
+            data.whatsappNum = document.getElementById('edit-whatsapp-num').value;
+            
+            let newPass = document.getElementById('edit-new-pass').value;
+            if (newPass.trim() !== "") {
+                data.adminPass = newPass;
+            }
+
+            data.item1Title = document.getElementById('item1-title').value;
+            data.item1Desc = document.getElementById('item1-desc').value;
+            data.item1Price = document.getElementById('item1-price').value;
+
+            data.item2Title = document.getElementById('item2-title').value;
+            data.item2Desc = document.getElementById('item2-desc').value;
+            data.item2Price = document.getElementById('item2-price').value;
+
+            data.item3Title = document.getElementById('item3-title').value;
+            data.item3Desc = document.getElementById('item3-desc').value;
+            data.item3Price = document.getElementById('item3-price').value;
+
+            localStorage.setItem('mazaj_cafe_data', JSON.stringify(data));
+            renderSite();
+            closeAdminPanel();
+            alert('تم حفظ وتحديث المنيو بنجاح!');
+        }
+
+        function resetData() {
+            if (confirm('هل أنت متأكد من استرجاع الإعدادات الافتراضية؟')) {
+                localStorage.removeItem('mazaj_cafe_data');
+                renderSite();
+                closeAdminPanel();
+            }
+        }
+
+        window.onload = renderSite;
+    </script>
+</body>
+</html>
